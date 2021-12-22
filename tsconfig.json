@@ -23,7 +23,7 @@
   },
   "include": [
     "src"
-  ],
+, "pages/reportWebVitals.ts", "pages/setupTests.ts"  ],
   "exclude": [
     "node_modules"
   ]
