@@ -1,0 +1,8 @@
+version: "3"
+services:
+  loja_integrada: 
+    command: yarn dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
