@@ -1,5 +1,7 @@
+import Form from "../../components/Form/Form"
+
 function login(){
-    return <>teste login</>
+    return <Form />
 }
 
 export default login
