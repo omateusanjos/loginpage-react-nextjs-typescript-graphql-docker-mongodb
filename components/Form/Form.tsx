@@ -16,8 +16,8 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { useLazyQuery } from "react-apollo";
-import { GET_LOGIN } from "../../graphql/queryGetLogin";
+// import { useLazyQuery } from "react-apollo";
+// import { GET_LOGIN } from "../../graphql/queryGetLogin";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -30,27 +30,27 @@ const Form: React.FC = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [errorLogin, setErrorLogin] = useState("");
 
-  const [getUserLogin, { loading, error, data }] = useLazyQuery(GET_LOGIN, {
-    onCompleted: () => {
-      if (data?.peopleByEmail.length > 0) {
-        setIsLogged(true);
-      } else {
-        setErrorLogin("Usuário ou senha incorretos");
-      }
-    },
-    onError: (errors) => {
-      throw new Error(errors.message);
-    },
-  });
+  // const [getUserLogin, { loading, error, data }] = useLazyQuery(GET_LOGIN, {
+  //   onCompleted: () => {
+  //     if (data?.peopleByEmail.length > 0) {
+  //       setIsLogged(true);
+  //     } else {
+  //       setErrorLogin("Usuário ou senha incorretos");
+  //     }
+  //   },
+  //   onError: (errors) => {
+  //     throw new Error(errors.message);
+  //   },
+  // });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error in graphql:(</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error in graphql:(</p>;
 
   const onLogin = () => {
     setContTryLogin(contTryLogin + 1);
-    getUserLogin({
-      variables: { email: email, password: password },
-    });
+    // getUserLogin({
+    //   variables: { email: email, password: password },
+    // });
   };
 
   const handleShowClick = () => setShowPassword(!showPassword);
