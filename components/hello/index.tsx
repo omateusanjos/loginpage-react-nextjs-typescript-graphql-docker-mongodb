@@ -1,3 +1,7 @@
-function hello() {
+import React from "react";
+
+function Hello() {
   return <div>Hello</div>;
 }
+
+export { Hello };
