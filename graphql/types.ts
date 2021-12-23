@@ -1,13 +1,25 @@
 import { gql } from "apollo-server-micro";
+
+// query users and user
 export const typeDefs = gql`
   type User {
-    id: ID
-    login: String
-    avatar_url: String
+    _id: ID
+    email: String
+    password: String
+  }
+
+  input UserInput {
+      email: String
+    password: String
   }
 
   type Query {
-    getUsers: [User]
-    getUser(name: String!): User!
+    users: [User]
+    user(email: String!): User
+    login(email: String!, password: String!): User
+  }
+
+  type Mutation {
+    createUser(user: UserInput): User
   }
 `;

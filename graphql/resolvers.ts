@@ -1,41 +1,55 @@
-import axios from "axios";
+import GraphQLServerOptions from "apollo-server-core/dist/graphqlOptions";
+import { GraphQLRequest } from "apollo-server-types";
+import { GraphQLResolveInfo, GraphQLTypeResolver } from "graphql";
+import { Context } from "react-apollo";
 
 export const resolvers = {
-  Query: {
-    getUsers: async () => {
-      try {
-        const users = await axios.get("https://api.github.com/users");
-        return users.data.map(
-          ({
-            id,
-            login,
-            avatar_url,
-          }): { id: String; login: String; avatar_url: String } => {
-            return {
-              id,
-              login,
-              avatar_url,
-            };
-          }
-        );
-      } catch (error) {
-        throw error;
+  Query:  {
+    users(
+      _parent: GraphQLServerOptions,
+      _args: {},
+      _context: Context,
+      _info: GraphQLResolveInfo
+    ): GraphQLTypeResolver<GraphQLResolveInfo, GraphQLRequest> {
+      return _context.db.collection("people").find({}).toArray();
+    },
+    user(
+      _parent: GraphQLServerOptions,
+      _args: { email: string },
+      _context: Context,
+      _info: GraphQLResolveInfo
+    ): GraphQLTypeResolver<GraphQLResolveInfo, GraphQLRequest> {
+      return _context.db.collection("people").findOne({ email: _args.email });
+    },
+    login(
+      _parent: GraphQLServerOptions,
+      _args: { email: string, password: string },
+      _context: Context,
+      _info: GraphQLResolveInfo
+    ): GraphQLTypeResolver<GraphQLResolveInfo, GraphQLRequest> {
+      const people = _context.db.collection("people").findOne({ email: _args.email, password: _args.password })
+      if (people) {
+        return people;
+      } else {
+        throw new Error("User not exists");
       }
     },
-    getUser: async (_: any, args: { name: String }) => {
-      try {
-        const user = await axios.get(
-          `https://api.github.com/users/${args.name}`
-        );
-        const { id, login, avatar_url } = user.data;
-        return {
-          id: id,
-          login: login,
-          avatar_url: avatar_url,
-        };
-      } catch (error) {
-        throw error;
-      }
+  },
+  Mutation: {
+    createUser(
+      _parent: GraphQLServerOptions,
+      _args: { user: { email: string, password: string } },
+      _context: Context,
+      _info: GraphQLResolveInfo
+    ): GraphQLTypeResolver<GraphQLResolveInfo, GraphQLRequest> {
+     return _context.db
+        .collection("people")
+        .findOne({ email: _args.user.email }).then((user: { _id: string, email: string, password: string }) => {
+          if (user) {
+            throw new Error("User already exists");
+          }
+          return _context.db.collection("people").insertOne(_args.user);
+        });
     },
   },
 };
