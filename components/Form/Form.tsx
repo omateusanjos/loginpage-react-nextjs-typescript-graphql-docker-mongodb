@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -16,41 +16,30 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-// import { useLazyQuery } from "react-apollo";
-// import { GET_LOGIN } from "../../graphql/queryGetLogin";
+import { users, user } from "../../types/index";
 
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
-
-const Form: React.FC = () => {
+function Form({ users }: users): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
   const [contTryLogin, setContTryLogin] = useState(0);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLogged, setIsLogged] = useState(false);
   const [errorLogin, setErrorLogin] = useState("");
+  const [usersDB, setUsersDB] = useState([]);
+  const [password, setPassword] = useState("");
+  const CFaUserAlt = chakra(FaUserAlt);
+  const CFaLock = chakra(FaLock);
 
-  // const [getUserLogin, { loading, error, data }] = useLazyQuery(GET_LOGIN, {
-  //   onCompleted: () => {
-  //     if (data?.peopleByEmail.length > 0) {
-  //       setIsLogged(true);
-  //     } else {
-  //       setErrorLogin("Usuário ou senha incorretos");
-  //     }
-  //   },
-  //   onError: (errors) => {
-  //     throw new Error(errors.message);
-  //   },
-  // });
+  useEffect(() => {
+    const usersArray = Object.values(users);
+    setUsersDB(usersArray);
+  }, [users]);
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error in graphql:(</p>;
 
   const onLogin = () => {
+    if ((email || password) === "" || (email || password) === undefined) {
+      setErrorLogin("Email and password is required");
+    }
     setContTryLogin(contTryLogin + 1);
-    // getUserLogin({
-    //   variables: { email: email, password: password },
-    // });
   };
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -165,37 +154,27 @@ const Form: React.FC = () => {
             >
               Cadastrar-se
             </Link>
-            <p>
-              <h1>
-                {" "}
-                <Box>
-                  <Button
-                    h="1.75rem"
-                    size="sm"
-                    tabIndex={1}
-                    onClick={() => setContTryLogin(0)}
-                    title="Exibir a senha"
-                    width="2.5rem"
-                    padding="0.5rem"
-                    fontSize="0.5rem"
-                    marginLeft={2}
-                    backgroundColor={"teal.500"}
-                    name={"Resetar contador de tentativas"}
-                  >
-                    X
-                  </Button>{" "}
-                  {`Contador de tentativas: ${contTryLogin}`}
-                </Box>
-              </h1>
-              <br />
-
-              <h1>
-                {" "}
-                <Heading fontSize={"1em"} color={"red"}>
-                  {errorLogin}
-                </Heading>
-              </h1>
-            </p>
+            <Box>
+              <Button
+                h="1.75rem"
+                size="sm"
+                tabIndex={1}
+                onClick={() => setContTryLogin(0)}
+                title="Exibir a senha"
+                width="2.5rem"
+                padding="0.5rem"
+                fontSize="0.5rem"
+                marginLeft={2}
+                backgroundColor={"teal.500"}
+                name={"Resetar contador de tentativas"}
+              >
+                X
+              </Button>{" "}
+              {`Contador de tentativas: ${contTryLogin}`}
+            </Box>
+            <Heading fontSize={"1em"} color={"red"}>
+              {errorLogin}
+            </Heading>
           </>
         ) : (
           <>
@@ -212,8 +191,32 @@ const Form: React.FC = () => {
           </>
         )}
       </Box>
+      {!isLogged ? (
+        <Flex flexDirection="column">
+          <>
+            {" "}
+            <br />
+            <Heading fontSize={"1em"} color={"black"} alignSelf={"center"}>
+              Lista de usuários cadastrados
+            </Heading>
+            {usersDB.map((user: user) => {
+              return (
+                <div key={user._id}>
+                  <Box
+                    display={"flex"}
+                    width={"100%"}
+                    justifyContent={"space-around"}
+                  >
+                    <b>E-mail:</b> {user.email} <b>Senha:</b> {user.password}
+                  </Box>
+                </div>
+              );
+            })}
+          </>
+        </Flex>
+      ) : null}
     </Flex>
   );
-};
+}
 
 export default Form;

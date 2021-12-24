@@ -1,6 +1,5 @@
 import { gql } from "apollo-server-micro";
 
-// query users and user
 export const typeDefs = gql`
   type User {
     _id: ID
