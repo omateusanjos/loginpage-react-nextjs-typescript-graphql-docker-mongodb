@@ -1,31 +1,30 @@
 import Form from "../components/Form/Form";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { usersType } from "../types";
+import { GET_USERS } from "../graphql/querys";
 
-export default function login({ users }: any) {
+export default function index({
+  users,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   return <Form {...users} />;
 }
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async (): Promise<{
+  props: { users: usersType };
+}> => {
   const client = new ApolloClient({
-    uri: "http://localhost:3000/api/graphql",
+    uri: `${process.env.URL_API}/api/graphql`,
     cache: new InMemoryCache(),
   });
 
   const { data } = await client.query({
-    query: gql`
-      query users {
-        users {
-          _id
-          password
-          email
-        }
-      }
-    `,
+    query: GET_USERS,
   });
 
+  const users: usersType = data;
+
   return {
-    props: {
-      users: data,
-    },
+    props: { users },
   };
-}
+};

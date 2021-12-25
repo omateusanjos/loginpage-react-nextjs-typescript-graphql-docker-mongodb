@@ -16,9 +16,9 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { users, user } from "../../types/index";
+import { usersType, userType } from "../../types/index";
 
-function Form({ users }: users): JSX.Element {
+function Form({ users }: usersType): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
   const [contTryLogin, setContTryLogin] = useState(0);
   const [email, setEmail] = useState("");
@@ -177,7 +177,6 @@ function Form({ users }: users): JSX.Element {
             </Heading>
           </>
         ) : (
-          <>
             <Button
               h="1.75rem"
               size="sm"
@@ -188,18 +187,16 @@ function Form({ users }: users): JSX.Element {
             >
               Sair
             </Button>
-          </>
         )}
       </Box>
       {!isLogged ? (
         <Flex flexDirection="column">
-          <>
             {" "}
             <br />
             <Heading fontSize={"1em"} color={"black"} alignSelf={"center"}>
               Lista de usuários cadastrados
             </Heading>
-            {usersDB.map((user: user) => {
+            {usersDB.map((user: userType) => {
               return (
                 <div key={user._id}>
                   <Box
@@ -212,7 +209,6 @@ function Form({ users }: users): JSX.Element {
                 </div>
               );
             })}
-          </>
         </Flex>
       ) : null}
     </Flex>

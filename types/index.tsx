@@ -1,11 +1,11 @@
-interface users {
-  users: user;
+type usersType = {
+  users: userType;
 }
-type user = {
+type userType = {
   __typename: string;
   _id: string;
   password: string;
   email: string;
 };
 
-export { users, user };
+export type { usersType, userType };
