@@ -10,18 +10,11 @@ export default function ListUsers(usersDB: userType[]): JSX.Element {
       <Heading fontSize={"1em"} color={"black"} alignSelf={"center"}>
         Lista de usuários cadastrados
       </Heading>
-      {usersDB.map((user: userType) => {
-        return (
-          <Box
-            display={"flex"}
-            width={"100%"}
-            justifyContent={"space-around"}
-            key={user._id}
-          >
-            <b>E-mail:</b> {user.email} <b>Senha:</b> {user.password}
-          </Box>
-        );
-      })}
+      {usersDB.map((user: userType, index) => (
+        <div key={index}>
+          <b>E-mail:</b> {user.email} <b>Senha:</b> {user.password}
+        </div>
+      ))}
     </Flex>
   );
 }
