@@ -3,7 +3,7 @@ module.exports = {
     bail: 1,
     clearMocks: true,
     collectCoverage: true,
-    collectCoverageFrom: ['components/**/*.js', 'pages/**/*.js'],
+    collectCoverageFrom: ['components/**/*.(js|jsx|ts|tsx|)', 'pages/**/*.(js|jsx|ts|tsx)', ],
     coverageReporters: ['lcov', 'text'],
     transform: {
         '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
