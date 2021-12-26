@@ -16,7 +16,8 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { usersType, userType } from "../../types/index";
+import { usersType } from "../../types/index";
+import ListUsers from "../ListUsers/ListUsers";
 
 function Form({ users }: usersType): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,20 +30,23 @@ function Form({ users }: usersType): JSX.Element {
   const CFaUserAlt = chakra(FaUserAlt);
   const CFaLock = chakra(FaLock);
 
-  useEffect(() => {
-    const usersArray = Object.values(users);
-    setUsersDB(usersArray);
-  }, [users]);
+  useEffect(() => setUsersDB(Object.values(users)), [users]);
 
-
-  const onLogin = () => {
-    if ((email || password) === "" || (email || password) === undefined) {
-      setErrorLogin("Email and password is required");
-    }
+  const onLoginValidation = () => {
+    if(!email && !password) return setErrorLogin("Email and password is required");
+    if(!email) return setErrorLogin("Email is required");
+    if(!password) return setErrorLogin("Password is required");
     setContTryLogin(contTryLogin + 1);
   };
 
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  const erros = (erro: string | number): string => ({
+    'erro 1':'erro numero 1',
+    'erro 2':'erro numero 2',
+    'erro 3':'erro numero 3',
+    })[erro]|| 'não tem'
+
 
   return (
     <Flex
@@ -63,6 +67,13 @@ function Form({ users }: usersType): JSX.Element {
         <Heading color="teal.400" fontSize={"1rem"}>
           Olá {isLogged ? `, ${email}` : null}
         </Heading>
+
+
+        <Heading fontSize={"1em"} color={"red"}>
+              {errorLogin}
+            </Heading>
+
+
         <Box minW={{ base: "90%", md: "468px" }}>
           {!isLogged && (
             <Stack
@@ -131,7 +142,7 @@ function Form({ users }: usersType): JSX.Element {
                 colorScheme="teal"
                 width="full"
                 tabIndex={5}
-                onClick={() => onLogin()}
+                onClick={() => onLoginValidation()}
                 backgroundColor={contTryLogin > 3 ? "red.500" : "teal.500"}
                 isDisabled={contTryLogin > 3}
               >
@@ -160,7 +171,7 @@ function Form({ users }: usersType): JSX.Element {
                 size="sm"
                 tabIndex={1}
                 onClick={() => setContTryLogin(0)}
-                title="Exibir a senha"
+                title="Resetar contador de tentativas"
                 width="2.5rem"
                 padding="0.5rem"
                 fontSize="0.5rem"
@@ -172,9 +183,7 @@ function Form({ users }: usersType): JSX.Element {
               </Button>{" "}
               {`Contador de tentativas: ${contTryLogin}`}
             </Box>
-            <Heading fontSize={"1em"} color={"red"}>
-              {errorLogin}
-            </Heading>
+            {ListUsers(usersDB)}
           </>
         ) : (
             <Button
@@ -189,28 +198,6 @@ function Form({ users }: usersType): JSX.Element {
             </Button>
         )}
       </Box>
-      {!isLogged ? (
-        <Flex flexDirection="column">
-            {" "}
-            <br />
-            <Heading fontSize={"1em"} color={"black"} alignSelf={"center"}>
-              Lista de usuários cadastrados
-            </Heading>
-            {usersDB.map((user: userType) => {
-              return (
-                <div key={user._id}>
-                  <Box
-                    display={"flex"}
-                    width={"100%"}
-                    justifyContent={"space-around"}
-                  >
-                    <b>E-mail:</b> {user.email} <b>Senha:</b> {user.password}
-                  </Box>
-                </div>
-              );
-            })}
-        </Flex>
-      ) : null}
     </Flex>
   );
 }
