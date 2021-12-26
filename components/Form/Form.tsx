@@ -41,13 +41,6 @@ function Form({ users }: usersType): JSX.Element {
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
-  const erros = (erro: string | number): string => ({
-    'erro 1':'erro numero 1',
-    'erro 2':'erro numero 2',
-    'erro 3':'erro numero 3',
-    })[erro]|| 'não tem'
-
-
   return (
     <Flex
       flexDirection="column"
@@ -56,6 +49,7 @@ function Form({ users }: usersType): JSX.Element {
       backgroundColor="gray.200"
       justifyContent="center"
       alignItems="center"
+      id="form"
     >
       <Stack
         flexDir="column"
