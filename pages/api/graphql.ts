@@ -1,6 +1,5 @@
 import { ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
-import { makeExecutableSchema } from "graphql-tools";
 import { Db, MongoClient } from "mongodb";
 import { resolvers } from "../../graphql/resolvers";
 import { typeDefs } from "../../graphql/types";
@@ -9,15 +8,11 @@ import { ServerResponse } from "http";
 import dotenv from "dotenv";
 dotenv.config();
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
-
 let db: Db;
 
 const apolloServer = new ApolloServer({
-  schema,
+  typeDefs,
+  resolvers,
   context: async () => {
     if (!db) {
       try {
