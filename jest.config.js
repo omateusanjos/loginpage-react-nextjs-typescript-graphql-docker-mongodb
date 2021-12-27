@@ -4,7 +4,10 @@ module.exports = {
     clearMocks: true,
     collectCoverage: true,
     collectCoverageFrom: ['components/**/*.(js|jsx|ts|tsx|)', 'pages/**/*.(js|jsx|ts|tsx)', ],
-    coverageReporters: ['lcov', 'text'],
+    coverageReporters: [
+        "json-summary",
+        "lcov"
+      ],
     transform: {
         '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
     },

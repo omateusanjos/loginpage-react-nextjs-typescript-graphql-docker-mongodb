@@ -1,4 +1,8 @@
 # Login Page  [![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama) [![TypeScript](https://img.shields.io/badge/--3178C6?logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org/) [![Docker](https://badgen.net/badge/icon/docker?icon=docker&label)](https://https://docker.com/) [![TypeScript](https://img.shields.io/badge/--3178C6?logo=react&logoColor=ffffff)](https://www.typescriptlang.org/)
+| Statements | Branches | Functions | Lines |
+| -----------|----------|-----------|-------|
+| ![Statements](https://img.shields.io/badge/Coverage-31.48%25-red.svg "Make me better!") | ![Branches](https://img.shields.io/badge/Coverage-34.61%25-red.svg "Make me better!") | ![Functions](https://img.shields.io/badge/Coverage-22.22%25-red.svg "Make me better!") | ![Lines](https://img.shields.io/badge/Coverage-33.33%25-red.svg "Make me better!") |
+
 
 Projeto voltado à masterização de conhecimento.
 

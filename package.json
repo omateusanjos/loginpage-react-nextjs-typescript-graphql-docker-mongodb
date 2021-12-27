@@ -50,11 +50,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "make-badges": "yarn jest-badges-readme",
     "dev:up": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "prod:up": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
     "lint": "next lint",
     "test": "jest --watch",
     "coverage": "jest --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "jest && node_modules/.bin/jest-badges-readme && git add 'README.md'"
+    }
   },
   "browserslist": {
     "production": [
@@ -70,10 +76,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
+    "@olavoparno/jest-badges-readme": "^1.5.1",
     "@types/testing-library__jest-dom": "^5.14.2",
     "babel-jest": "^27.4.5",
     "eslint": "^8.5.0",
     "eslint-config-next": "12.0.7",
+    "husky": "^7.0.4",
     "jest": "^27.4.5",
     "ts-jest": "^27.1.2"
   }
