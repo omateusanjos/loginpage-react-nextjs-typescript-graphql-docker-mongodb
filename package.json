@@ -22,6 +22,7 @@
     "dotenv": "^10.0.0",
     "framer-motion": "^4",
     "graphql": "^16.2.0",
+    "graphql-docs": "^0.2.0",
     "graphql-tools": "^8.2.0",
     "micro": "^9.3.4",
     "mongodb": "^4.2.2",
