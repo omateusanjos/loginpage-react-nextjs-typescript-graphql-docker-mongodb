@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -32,14 +32,18 @@ function Form({ users }: usersType): JSX.Element {
 
   useEffect(() => setUsersDB(Object.values(users)), [users]);
 
-  const onLoginValidation = () => {
-    if(!email && !password) return setErrorLogin("Email and password is required");
-    if(!email) return setErrorLogin("Email is required");
-    if(!password) return setErrorLogin("Password is required");
-    setContTryLogin(contTryLogin + 1);
-  };
 
-  const handleShowClick = () => setShowPassword(!showPassword);
+  const onLoginValidation = useCallback(
+    () => {
+      if(!email && !password) return setErrorLogin("Email and password is required");
+      if(!email) return setErrorLogin("Email is required");
+      if(!password) return setErrorLogin("Password is required");
+      setContTryLogin(contTryLogin + 1);
+    },
+    [users.email, email, password, contTryLogin],
+  )
+
+  const handleShowClick = useCallback(() => setShowPassword(!showPassword), [showPassword]);
 
   return (
     <Flex
@@ -185,8 +189,9 @@ function Form({ users }: usersType): JSX.Element {
               size="sm"
               tabIndex={1}
               onClick={() => setIsLogged(false)}
-              title="Exibir a senha"
+              title="desconectar-se"
               width="4.5rem"
+              name="logout"
             >
               Sair
             </Button>
