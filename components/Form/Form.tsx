@@ -32,22 +32,18 @@ function Form({ users }: usersType): JSX.Element {
 
   useEffect(() => setUsersDB(Object.values(users)), [users]);
 
-  const onLoginValidation = useCallback(() => {
-    if (users.email === "mateus@gmail.com") {
-      setIsLogged(true);
-      return;
-    }
+  const onLoginValidation = useCallback((): void => {
+    if (users.email === "mateus@gmail.com") return setIsLogged(true);
     if (!email && !password)
-      return setErrorLogin("Email and password is required");
-    if (!email) return setErrorLogin("Email is required");
-    if (!password) return setErrorLogin("Password is required");
+      return setErrorLogin("Email or password is required");
     setContTryLogin(contTryLogin + 1);
   }, [users.email, email, password, contTryLogin]);
 
   const handleShowClick = useCallback(
-    () => setShowPassword(!showPassword),
+    (): void => setShowPassword(!showPassword),
     [showPassword]
   );
+
   const getHeading = () => (
     <>
       {errorLogin}
@@ -82,6 +78,7 @@ function Form({ users }: usersType): JSX.Element {
                 title="E-mail"
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
+                data-testvalue={email}
               />
             </InputGroup>
           </FormControl>
@@ -93,6 +90,7 @@ function Form({ users }: usersType): JSX.Element {
                 children={<CFaLock color="gray.300" />}
                 tabIndex={-1}
                 htmlFor="password"
+                data-testvalue={password}
               />
               <Input
                 type={showPassword ? "text" : "password"}
@@ -101,6 +99,7 @@ function Form({ users }: usersType): JSX.Element {
                 title="Senha"
                 name="password"
                 onChange={(e) => setPassword(e.target.value)}
+                data-testid="password"
               />
               <InputRightElement width="4.5rem">
                 <Button
@@ -109,6 +108,7 @@ function Form({ users }: usersType): JSX.Element {
                   tabIndex={3}
                   onClick={handleShowClick}
                   title="Exibir a senha"
+                  name="showPassword"
                 >
                   {showPassword ? "Ocultar" : "Exibir"}
                 </Button>
